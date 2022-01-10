@@ -24,3 +24,47 @@ body {
   background-color: rgba(62, 102, 46, 0.5);
   color: rgba(105, 255, 212);
 }
+
+.form {
+  display: flex;
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  align-items: center;
+  flex-direction: column;
+  gap: 30px;
+  border: 2px solid black;
+  border-radius: 14px;
+  padding: 16px 0px;
+  width: 400px;
+  max-width: 60%;
+
+}
+
+.form-header {
+  display: flex;
+  column-gap: 40px;
+}
+
+.is-read {
+  display: flex;
+  gap: 30px;
+}
+
+.title {
+  font-weight: bold;
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: 24px;
+}
+
+input {
+  font-size: 20px;
+  font-weight: bold;
+  border: 2px solid black;
+  border-radius: 4px;
+}
+
+.text {
+  font-size: 20px;
+}

@@ -1,21 +1,35 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="stylesheet" href="style.css" />
-    <script src="script.js" defer></script>
-    <title>Library</title>
-  </head>
-  <body>
-    <div class="header">Library</div>
-    <div class="main-content">
-      <div class="book"></div>
-      <div class="book"></div>
-      <div class="book"></div>
-      <div class="book"></div>
-      <div class="book"></div>
+
+<head>
+  <meta charset="UTF-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="stylesheet" href="style.css" />
+  <script src="script.js" defer></script>
+  <title>Library</title>
+</head>
+
+<body>
+  <div class="header">Library</div>
+  <div class="main-content">
+    <button>Add a book</button>
+    <div class="form" id="form">
+      <div class="form-header">
+        <div class="title">Add a new book</div>
+        <button class="close-button">&times;</button>
+      </div>
+      <input type="text" id="book-title" placeholder="title" required>
+      <input type="text" id="author" placeholder="author" required>
+      <input type="number" id="pages" placeholder="pages" required>
+      <div class="is-read">
+        <div class="text">Have you read it ?</div>
+        <input type="checkbox">
+      </div>
+      <button>Submit</button>
     </div>
-  </body>
+
+  </div>
+</body>
+
 </html>
