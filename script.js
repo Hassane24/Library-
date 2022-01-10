@@ -28,3 +28,20 @@ function closeForm(form) {
   form.classList.remove("active");
   overlay.classList.remove("active");
 }
+
+let myLibrary = [];
+
+function Book(title, author, pages) {
+  this.title = title;
+  this.author = author;
+  this.pages = pages;
+  this.isRead = true;
+  this.info = function () {
+    if (this.isRead) {
+      return `${this.title} by ${this.author}, ${this.pages} read`;
+    }
+    return `${this.title} by ${this.author}, ${this.pages} not read yet`;
+  };
+}
+
+function addBookToLibrary() {}
