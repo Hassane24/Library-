@@ -13,11 +13,11 @@
 <body>
   <div class="header">Library</div>
   <div class="main-content">
-    <button>Add a book</button>
+    <button data-form-target="#form" class="addbook">Add a book</button>
     <div class="form" id="form">
       <div class="form-header">
         <div class="title">Add a new book</div>
-        <button class="close-button">&times;</button>
+        <button data-close-button class="close-button">&times;</button>
       </div>
       <input type="text" id="book-title" placeholder="title" required>
       <input type="text" id="author" placeholder="author" required>
@@ -28,6 +28,7 @@
       </div>
       <button>Submit</button>
     </div>
+    <div id="overlay"></div>
 
   </div>
 </body>

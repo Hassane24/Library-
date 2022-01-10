@@ -30,7 +30,8 @@ body {
   position: fixed;
   top: 50%;
   left: 50%;
-  transform: translate(-50%, -50%);
+  transform: translate(-50%, -50%) scale(0);
+  transition: 200ms ease-in-out;
   align-items: center;
   flex-direction: column;
   gap: 30px;
@@ -39,7 +40,20 @@ body {
   padding: 16px 0px;
   width: 400px;
   max-width: 60%;
+  z-index: 15;
+  background-color: #9299a6;
+}
 
+.form.active {
+  transform: translate(-50%, -50%) scale(1);
+}
+
+.close-button {
+  cursor: pointer;
+  border: none;
+  outline: none;
+  background: none;
+  font-size: 1.25rem;
 }
 
 .form-header {
@@ -58,6 +72,10 @@ body {
   font-size: 24px;
 }
 
+.addbook {
+  cursor: pointer;
+}
+
 input {
   font-size: 20px;
   font-weight: bold;
@@ -67,4 +85,21 @@ input {
 
 .text {
   font-size: 20px;
+}
+
+#overlay {
+  position: fixed;
+  opacity: 0;
+  transition: 200ms ease-in-out;
+  pointer-events: none;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.5);
+}
+
+#overlay.active {
+  opacity: 1;
+  pointer-events: all;
 }
