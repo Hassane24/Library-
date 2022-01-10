@@ -24,6 +24,9 @@ body {
   background-color: rgba(62, 102, 46, 0.5);
   color: rgba(105, 255, 212);
 }
+.main-content {
+  text-align: center;
+}
 
 .form {
   display: flex;
@@ -63,7 +66,21 @@ body {
 
 .is-read {
   display: flex;
+  align-items: center;
+  justify-content: center;
   gap: 30px;
+}
+
+input[type="checkbox"] {
+  width: 30px;
+  height: 30px;
+  background: white;
+  border-radius: 5px;
+  border: 2px solid #555;
+}
+
+input[type="checkbox"]:checked {
+  background: #abd;
 }
 
 .title {
@@ -74,6 +91,15 @@ body {
 
 .addbook {
   cursor: pointer;
+  padding: 6px;
+  background-color: #6a857e;
+  opacity: 0.5;
+  font-weight: bold;
+  font-size: 2rem;
+  margin: 10px;
+  border: 2px solid aquamarine;
+  border-radius: 10px;
+  color: #011c0d;
 }
 
 input {
@@ -84,7 +110,7 @@ input {
 }
 
 .text {
-  font-size: 20px;
+  font-size: 1.5em;
 }
 
 #overlay {
@@ -102,4 +128,15 @@ input {
 #overlay.active {
   opacity: 1;
   pointer-events: all;
+}
+
+.submit {
+  font-size: 25px;
+  font-weight: bold;
+  background-color: green;
+  color: white;
+  font-family: Impact, Haettenschweiler, "Arial Narrow Bold", sans-serif;
+  padding: 8px 18px;
+  border: 2px solid black;
+  border-radius: 10px;
 }
