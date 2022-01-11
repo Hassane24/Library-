@@ -26,6 +26,8 @@ body {
 }
 .main-content {
   text-align: center;
+  display: flex;
+  flex-direction: column;
 }
 
 .form {
@@ -90,13 +92,14 @@ input[type="checkbox"]:checked {
 }
 
 .addbook {
+  align-self: center;
   cursor: pointer;
   padding: 6px;
   background-color: #6a857e;
   opacity: 0.5;
   font-weight: bold;
   font-size: 2rem;
-  margin: 10px;
+  margin: 12px;
   border: 2px solid aquamarine;
   border-radius: 10px;
   color: #011c0d;
@@ -139,4 +142,16 @@ input {
   padding: 8px 18px;
   border: 2px solid black;
   border-radius: 10px;
+}
+
+.book {
+  font-size: 1.6em;
+  background-color: grey;
+  border: 2px solid black;
+  border-radius: 6px;
+  display: flex;
+  justify-content: space-between;
+  padding: 10px 16px;
+  margin: 10px 30px;
+  min-width: 100vh;
 }

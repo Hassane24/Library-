@@ -1,6 +1,9 @@
 const openFormbutton = document.querySelector("[data-form-target]");
 const closeFormbutton = document.querySelector("[data-close-button]");
 const overlay = document.querySelector("#overlay");
+const bookTitle = document.getElementById("book-title");
+const author = document.getElementById("author");
+const pages = document.getElementById("pages");
 
 overlay.addEventListener("click", () => {
   const form = document.querySelector(".form.active");
