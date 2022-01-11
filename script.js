@@ -56,10 +56,11 @@ function Book() {
 function addBookToLibrary() {
   submitButton.addEventListener("click", function () {
     myLibrary.push(new Book());
-    console.log(myLibrary);
+    localStorage.setItem("myLibrary", JSON.stringify(myLibrary));
   });
 }
+let storedBooks = JSON.parse(localStorage.getItem("myLibrary"));
 
 addBookToLibrary();
 
-console.log(myLibrary);
+console.log(storedBooks);
