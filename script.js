@@ -2,8 +2,14 @@ const openFormbutton = document.querySelector("[data-form-target]");
 const closeFormbutton = document.querySelector("[data-close-button]");
 const overlay = document.querySelector("#overlay");
 const bookTitle = document.getElementById("book-title");
-const author = document.getElementById("author");
-const pages = document.getElementById("pages");
+const anAuthor = document.getElementById("author");
+const pages_input = document.getElementById("pages");
+const submitButton = document.querySelector(".submit");
+
+submitButton.addEventListener("click", () => {
+  const form = document.querySelector(".active");
+  closeForm(form);
+});
 
 overlay.addEventListener("click", () => {
   const form = document.querySelector(".form.active");
@@ -34,10 +40,10 @@ function closeForm(form) {
 
 let myLibrary = [];
 
-function Book(title, author, pages) {
-  this.title = title;
-  this.author = author;
-  this.pages = pages;
+function Book() {
+  this.title = bookTitle.value;
+  this.author = anAuthor.value;
+  this.pages = pages_input.value;
   this.isRead = true;
   this.info = function () {
     if (this.isRead) {
@@ -47,4 +53,13 @@ function Book(title, author, pages) {
   };
 }
 
-function addBookToLibrary() {}
+function addBookToLibrary() {
+  submitButton.addEventListener("click", function () {
+    myLibrary.push(new Book());
+    console.log(myLibrary);
+  });
+}
+
+addBookToLibrary();
+
+console.log(myLibrary);
