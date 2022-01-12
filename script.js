@@ -5,6 +5,7 @@ const bookTitle = document.getElementById("book-title");
 const anAuthor = document.getElementById("author");
 const pages_input = document.getElementById("pages");
 const submitButton = document.querySelector(".submit");
+const mainContent = document.getElementById("main-content");
 
 submitButton.addEventListener("click", () => {
   const form = document.querySelector(".active");
@@ -39,6 +40,7 @@ function closeForm(form) {
 }
 
 let myLibrary = [];
+let allBooks = [];
 
 function Book() {
   this.title = bookTitle.value;
@@ -55,12 +57,35 @@ function Book() {
 
 function addBookToLibrary() {
   submitButton.addEventListener("click", function () {
+    removeElementsByClass("book");
     myLibrary.push(new Book());
-    localStorage.setItem("myLibrary", JSON.stringify(myLibrary));
+    addBookToDisplay();
+    console.log(myLibrary);
   });
 }
-let storedBooks = JSON.parse(localStorage.getItem("myLibrary"));
 
 addBookToLibrary();
 
-console.log(storedBooks);
+function addBookToDisplay() {
+  for (let index = 0; index < myLibrary.length; index++) {
+    const book = document.createElement("div");
+    book.classList.add("book");
+    mainContent.appendChild(book);
+    const spanTitle = document.createElement("span");
+    const spanAuthor = document.createElement("span");
+    const spanPages = document.createElement("span");
+    spanTitle.innerHTML = "Title: " + myLibrary[index].title;
+    spanAuthor.innerHTML = "Author: " + myLibrary[index].author;
+    spanPages.innerHTML = "Pages: " + myLibrary[index].pages;
+    book.appendChild(spanTitle);
+    book.appendChild(spanAuthor);
+    book.appendChild(spanPages);
+  }
+}
+
+function removeElementsByClass(className) {
+  const elements = document.getElementsByClassName(className);
+  while (elements.length > 0) {
+    elements[0].parentNode.removeChild(elements[0]);
+  }
+}
