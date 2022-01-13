@@ -1,11 +1,12 @@
+let bookTitle = document.getElementById("book-title");
+let anAuthor = document.getElementById("author");
+let pages_input = document.getElementById("pages");
 const openFormbutton = document.querySelector("[data-form-target]");
 const closeFormbutton = document.querySelector("[data-close-button]");
 const overlay = document.querySelector("#overlay");
-const bookTitle = document.getElementById("book-title");
-const anAuthor = document.getElementById("author");
-const pages_input = document.getElementById("pages");
 const submitButton = document.querySelector(".submit");
 const mainContent = document.getElementById("main-content");
+const checkBox = document.getElementById("checkbox");
 
 submitButton.addEventListener("click", () => {
   const form = document.querySelector(".active");
@@ -56,11 +57,13 @@ function Book() {
 }
 
 function addBookToLibrary() {
-  submitButton.addEventListener("click", function () {
+  submitButton.addEventListener("click", () => {
     removeElementsByClass("book");
     myLibrary.push(new Book());
     addBookToDisplay();
-    console.log(myLibrary);
+    bookTitle.value = "";
+    anAuthor.value = "";
+    pages_input.value = "";
   });
 }
 
@@ -69,17 +72,25 @@ addBookToLibrary();
 function addBookToDisplay() {
   for (let index = 0; index < myLibrary.length; index++) {
     const book = document.createElement("div");
-    book.classList.add("book");
-    mainContent.appendChild(book);
     const spanTitle = document.createElement("span");
     const spanAuthor = document.createElement("span");
     const spanPages = document.createElement("span");
+    const readButton = document.createElement("button");
+    const deleteButton = document.createElement("button");
+    book.classList.add("book");
+    readButton.classList.add("read-button");
+    deleteButton.classList.add("delete-button");
+    mainContent.appendChild(book);
+    deleteButton.innerHTML = "Delete Book";
+    readButton.innerHTML = "Read";
     spanTitle.innerHTML = "Title: " + myLibrary[index].title;
     spanAuthor.innerHTML = "Author: " + myLibrary[index].author;
     spanPages.innerHTML = "Pages: " + myLibrary[index].pages;
     book.appendChild(spanTitle);
     book.appendChild(spanAuthor);
     book.appendChild(spanPages);
+    book.appendChild(readButton);
+    book.appendChild(deleteButton);
   }
 }
 
@@ -89,3 +100,4 @@ function removeElementsByClass(className) {
     elements[0].parentNode.removeChild(elements[0]);
   }
 }
+

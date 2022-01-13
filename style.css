@@ -158,3 +158,11 @@ input {
   margin: 10px 30px;
   min-width: 100vh;
 }
+
+.read-button,.delete-button {
+  background-color: grey;
+  font-size: 20px;
+  border: 2px solid black;
+  border-radius: 6px;
+  cursor: pointer;
+}
