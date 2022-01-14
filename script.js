@@ -53,8 +53,9 @@ function Book(title, author, pages, id) {
   this.isRead = true;
   this.id = id;
   this.info = function () {
-    if (this.isRead) return "Read";
-    return "Not read yet";
+    if (checkBox.checked) {
+      return (this.isRead = true);
+    } else return (this.isRead = false);
   };
 }
 
@@ -66,11 +67,13 @@ function addBookToLibrary() {
       anAuthor.value,
       pages_input.value
     );
+    newBook.info();
     myLibrary.push(newBook);
     addBookToDisplay();
     bookTitle.value = "";
     anAuthor.value = "";
     pages_input.value = "";
+    checkBox.checked = false;
   });
 }
 
@@ -95,15 +98,27 @@ function addBookToDisplay() {
     bookCard.appendChild(readButton);
     bookCard.appendChild(deleteButton);
     deleteButton.innerHTML = "Delete Book";
-    readButton.innerHTML = "Read";
-    spanTitle.innerHTML = "Title: " + myLibrary[index].title;
-    spanAuthor.innerHTML = "Author: " + myLibrary[index].author;
-    spanPages.innerHTML = "Pages: " + myLibrary[index].pages;
+    if (Book.isRead) readButton.innerHTML = "Read";
+    else readButton.innerHTML = "Not read";
+    spanTitle.innerHTML = "Title: " + Book.title;
+    spanAuthor.innerHTML = "Author: " + Book.author;
+    spanPages.innerHTML = "Pages: " + Book.pages;
     deleteButton.addEventListener("click", () => {
       bookCard.remove();
       myLibrary = myLibrary.filter((bookCard) => {
         return bookCard.id !== Book.id;
       });
+    });
+    readButton.addEventListener("click", () => {
+      if (Book.isRead) {
+        Book.isRead = false;
+        readButton.innerHTML = "Not read";
+      }
+      if (!Book.isRead) {
+        Book.isRead = true;
+        readButton.innerHTML = "Read";
+      }
+      console.log(Book.isRead);
     });
   });
 }
