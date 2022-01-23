@@ -44,19 +44,25 @@ function closeForm(form) {
 }
 
 let myLibrary = [];
-let allBooks = [];
 
-function Book(title, author, pages, id) {
-  this.title = title;
-  this.author = author;
-  this.pages = pages;
-  this.isRead = true;
-  this.id = id;
-  this.info = function () {
+class Book {
+  constructor(title, author, pages, id) {
+    this.title = title;
+    this.author = author;
+    this.pages = pages;
+    this.isRead = true;
+    this.id = id;
+  }
+
+  info() {
     if (checkBox.checked) {
       return (this.isRead = true);
     } else return (this.isRead = false);
-  };
+  }
+
+  toggle() {
+    this.isRead = !this.isRead;
+  }
 }
 
 function addBookToLibrary() {
@@ -111,14 +117,13 @@ function addBookToDisplay() {
     });
     readButton.addEventListener("click", () => {
       if (Book.isRead) {
-        Book.isRead = false;
+        Book.toggle();
         readButton.innerHTML = "Not read";
       }
       if (!Book.isRead) {
-        Book.isRead = true;
+        Book.toggle();
         readButton.innerHTML = "Read";
       }
-      console.log(Book.isRead);
     });
   });
 }
