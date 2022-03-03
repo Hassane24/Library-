@@ -118,11 +118,11 @@ function addBookToDisplay() {
     readButton.addEventListener("click", () => {
       if (Book.isRead) {
         Book.toggle();
-        readButton.innerHTML = "Not read";
+        return (readButton.innerHTML = "Not read");
       }
       if (!Book.isRead) {
         Book.toggle();
-        readButton.innerHTML = "Read";
+        return (readButton.innerHTML = "Read");
       }
     });
   });
