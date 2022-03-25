@@ -13,7 +13,7 @@
     <div class="header">Library</div>
     <div class="main-content" id="main-content">
       <button data-form-target="#form" class="addbook">Add a book</button>
-      <div class="form" id="form">
+      <form class="form" id="form">
         <div class="form-header">
           <div class="title">Add a new book</div>
           <button data-close-button class="close-button">&times;</button>
@@ -23,10 +23,10 @@
         <input type="number" id="pages" placeholder="pages" required />
         <div class="is-read">
           <div class="text">Have you read it ?</div>
-          <input type="checkbox" id="checkbox"/>
+          <input type="checkbox" id="checkbox" />
         </div>
-        <button class="submit">Submit</button>
-      </div>
+        <button class="submit" type="submit">Submit</button>
+      </form>
       <div id="overlay"></div>
     </div>
   </body>

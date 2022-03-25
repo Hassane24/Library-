@@ -13,6 +13,12 @@ const checkBox = document.getElementById("checkbox");
 
 submitButton.addEventListener("click", () => {
   const form = document.querySelector(".active");
+  if (
+    bookTitle.value === "" ||
+    anAuthor.value === "" ||
+    pages_input.value === ""
+  )
+    return;
   closeForm(form);
 });
 
@@ -67,6 +73,12 @@ class Book {
 
 function addBookToLibrary() {
   submitButton.addEventListener("click", () => {
+    if (
+      bookTitle.value === "" ||
+      anAuthor.value === "" ||
+      pages_input.value === ""
+    )
+      return;
     removeElementsByClass("book");
     const newBook = new Book(
       bookTitle.value,
