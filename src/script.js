@@ -1,8 +1,21 @@
+// Firebase setup
+import { initializeApp } from "firebase/app";
+
+const firebaseConfig = {
+  apiKey: "AIzaSyA9SbIS7D8NP1faq2gG7m0etzFUU80CDUY",
+  authDomain: "library-c938b.firebaseapp.com",
+  projectId: "library-c938b",
+  storageBucket: "library-c938b.appspot.com",
+  messagingSenderId: "744180381562",
+  appId: "1:744180381562:web:ce01fada52acd5e75188c3",
+};
+
+// Initialize Firebase
+const app = initializeApp(firebaseConfig);
+
 let bookTitle = document.getElementById("book-title");
 let anAuthor = document.getElementById("author");
 let pages_input = document.getElementById("pages");
-let deleteButtons = [];
-let readButtons = [];
 
 const openFormbutton = document.querySelector("[data-form-target]");
 const closeFormbutton = document.querySelector("[data-close-button]");
