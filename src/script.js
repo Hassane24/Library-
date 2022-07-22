@@ -1,5 +1,11 @@
 // Firebase setup
 import { initializeApp } from "firebase/app";
+import {
+  getFirestore,
+  collection,
+  addDoc,
+  updateDoc,
+} from "firebase/firestore";
 
 const firebaseConfig = {
   apiKey: "AIzaSyA9SbIS7D8NP1faq2gG7m0etzFUU80CDUY",
@@ -13,10 +19,11 @@ const firebaseConfig = {
 // Initialize Firebase
 const app = initializeApp(firebaseConfig);
 
-let bookTitle = document.getElementById("book-title");
-let anAuthor = document.getElementById("author");
-let pages_input = document.getElementById("pages");
+const db = getFirestore(app);
 
+const bookTitle = document.getElementById("book-title");
+const anAuthor = document.getElementById("author");
+const pages_input = document.getElementById("pages");
 const openFormbutton = document.querySelector("[data-form-target]");
 const closeFormbutton = document.querySelector("[data-close-button]");
 const overlay = document.querySelector("#overlay");
@@ -62,7 +69,7 @@ function closeForm(form) {
   overlay.classList.remove("active");
 }
 
-let myLibrary = [];
+const myLibrary = [];
 
 class Book {
   constructor(title, author, pages, id) {
@@ -101,6 +108,7 @@ function addBookToLibrary() {
     newBook.info();
     myLibrary.push(newBook);
     addBookToDisplay();
+    // Resetting form's state
     bookTitle.value = "";
     anAuthor.value = "";
     pages_input.value = "";
