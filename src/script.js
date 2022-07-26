@@ -5,6 +5,8 @@ import {
   collection,
   addDoc,
   updateDoc,
+  setDoc,
+  doc,
 } from "firebase/firestore";
 
 const firebaseConfig = {
@@ -40,6 +42,26 @@ submitButton.addEventListener("click", () => {
   )
     return;
   closeForm(form);
+
+  const bookConverter = {
+    toFirestore: (book) => {
+      return {
+        author: book.author,
+        title: book.title,
+        pages: book.pages,
+        isRead: book.isRead,
+      };
+    },
+    fromFirestore: (snapshot, options) => {
+      const data = snapshot.data(options);
+      return new Book(data.title, data.pages, data.author);
+    },
+  };
+
+  setDoc(
+    doc(db, "Books", bookTitle.value).withConverter(bookConverter),
+    new Book(bookTitle.value, anAuthor.value, pages_input.value)
+  );
 });
 
 overlay.addEventListener("click", () => {
