@@ -3,10 +3,12 @@ import { initializeApp } from "firebase/app";
 import {
   getFirestore,
   collection,
-  addDoc,
-  updateDoc,
   setDoc,
   doc,
+  deleteDoc,
+  getDocs,
+  query,
+  where,
 } from "firebase/firestore";
 
 const firebaseConfig = {
@@ -69,7 +71,12 @@ overlay.addEventListener("click", () => {
   closeForm(form);
 });
 
-openFormbutton.addEventListener("click", () => {
+openFormbutton.addEventListener("click", async () => {
+  const queryDocs = query(collection(db, "Books"), where("isRead", "==", true));
+  const docs = await getDocs(queryDocs);
+  docs.forEach((doc) => {
+    console.log(doc.id, " => ", doc.data());
+  });
   const form = document.querySelector(openFormbutton.dataset.formTarget);
   openForm(form);
 });
@@ -164,7 +171,8 @@ function addBookToDisplay() {
     spanTitle.innerHTML = "Title: " + Book.title;
     spanAuthor.innerHTML = "Author: " + Book.author;
     spanPages.innerHTML = "Pages: " + Book.pages;
-    deleteButton.addEventListener("click", () => {
+    deleteButton.addEventListener("click", (e) => {
+      return console.log(e.target.parentNode.childNodes[0]);
       bookCard.remove();
       myLibrary = myLibrary.filter((bookCard) => {
         return bookCard.id !== Book.id;
