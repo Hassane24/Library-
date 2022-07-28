@@ -34,8 +34,19 @@ const overlay = document.querySelector("#overlay");
 const submitButton = document.querySelector(".submit");
 const mainContent = document.getElementById("main-content");
 const checkBox = document.getElementById("checkbox");
+const myLibrary = [];
 
-submitButton.addEventListener("click", () => {
+const queryDocs = query(collection(db, "Books"));
+const docs = getDocs(queryDocs).then((docs) => {
+  docs.forEach((doc) => {
+    myLibrary.push(
+      new Book(doc.data().title, doc.data().author, doc.data().pages)
+    );
+  });
+});
+
+submitButton.addEventListener("click", (e) => {
+  e.preventDefault();
   const form = document.querySelector(".active");
   if (
     bookTitle.value === "" ||
@@ -62,8 +73,14 @@ submitButton.addEventListener("click", () => {
 
   setDoc(
     doc(db, "Books", bookTitle.value).withConverter(bookConverter),
-    new Book(bookTitle.value, anAuthor.value, pages_input.value)
+    new Book(
+      bookTitle.value,
+      anAuthor.value,
+      pages_input.value,
+      checkBox.checked
+    )
   );
+  addBookToLibrary();
 });
 
 overlay.addEventListener("click", () => {
@@ -71,12 +88,7 @@ overlay.addEventListener("click", () => {
   closeForm(form);
 });
 
-openFormbutton.addEventListener("click", async () => {
-  const queryDocs = query(collection(db, "Books"), where("isRead", "==", true));
-  const docs = await getDocs(queryDocs);
-  docs.forEach((doc) => {
-    console.log(doc.id, " => ", doc.data());
-  });
+openFormbutton.addEventListener("click", () => {
   const form = document.querySelector(openFormbutton.dataset.formTarget);
   openForm(form);
 });
@@ -98,14 +110,12 @@ function closeForm(form) {
   overlay.classList.remove("active");
 }
 
-const myLibrary = [];
-
 class Book {
   constructor(title, author, pages, id) {
     this.title = title;
     this.author = author;
     this.pages = pages;
-    this.isRead = true;
+    this.isRead = this.info();
     this.id = id;
   }
 
@@ -121,31 +131,23 @@ class Book {
 }
 
 function addBookToLibrary() {
-  submitButton.addEventListener("click", () => {
-    if (
-      bookTitle.value === "" ||
-      anAuthor.value === "" ||
-      pages_input.value === ""
-    )
-      return;
-    removeElementsByClass("book");
-    const newBook = new Book(
-      bookTitle.value,
-      anAuthor.value,
-      pages_input.value
-    );
-    newBook.info();
-    myLibrary.push(newBook);
-    addBookToDisplay();
-    // Resetting form's state
-    bookTitle.value = "";
-    anAuthor.value = "";
-    pages_input.value = "";
-    checkBox.checked = false;
-  });
+  if (
+    bookTitle.value === "" ||
+    anAuthor.value === "" ||
+    pages_input.value === ""
+  )
+    return;
+  removeElementsByClass("book");
+  const newBook = new Book(bookTitle.value, anAuthor.value, pages_input.value);
+  newBook.info();
+  myLibrary.push(newBook);
+  addBookToDisplay();
+  // Resetting form's state
+  bookTitle.value = "";
+  anAuthor.value = "";
+  pages_input.value = "";
+  checkBox.checked = false;
 }
-
-addBookToLibrary();
 
 function addBookToDisplay() {
   myLibrary.forEach((Book, index) => {
@@ -172,7 +174,6 @@ function addBookToDisplay() {
     spanAuthor.innerHTML = "Author: " + Book.author;
     spanPages.innerHTML = "Pages: " + Book.pages;
     deleteButton.addEventListener("click", (e) => {
-      return console.log(e.target.parentNode.childNodes[0]);
       bookCard.remove();
       myLibrary = myLibrary.filter((bookCard) => {
         return bookCard.id !== Book.id;
