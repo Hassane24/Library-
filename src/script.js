@@ -34,19 +34,31 @@ const overlay = document.querySelector("#overlay");
 const submitButton = document.querySelector(".submit");
 const mainContent = document.getElementById("main-content");
 const checkBox = document.getElementById("checkbox");
-const myLibrary = [];
+let myLibrary = [];
 
-const queryDocs = query(collection(db, "Books"));
-const docs = getDocs(queryDocs).then((docs) => {
+async function getBooksFromDB() {
+  const queryDocs = query(collection(db, "Books"));
+  const docs = await getDocs(queryDocs);
   docs.forEach((doc) => {
+    console.log(doc.ref);
     myLibrary.push(
-      new Book(doc.data().title, doc.data().author, doc.data().pages)
+      new Book(
+        doc.data().title,
+        doc.data().author,
+        doc.data().pages,
+        doc.data().isRead
+      )
     );
+    console.log(myLibrary);
   });
-});
+  addBookToDisplay();
+}
+
+getBooksFromDB();
 
 submitButton.addEventListener("click", (e) => {
   e.preventDefault();
+
   const form = document.querySelector(".active");
   if (
     bookTitle.value === "" ||
@@ -73,14 +85,10 @@ submitButton.addEventListener("click", (e) => {
 
   setDoc(
     doc(db, "Books", bookTitle.value).withConverter(bookConverter),
-    new Book(
-      bookTitle.value,
-      anAuthor.value,
-      pages_input.value,
-      checkBox.checked
-    )
+    new Book(bookTitle.value, anAuthor.value, pages_input.value, readOrNot())
   );
   addBookToLibrary();
+  console.log(myLibrary);
 });
 
 overlay.addEventListener("click", () => {
@@ -110,19 +118,18 @@ function closeForm(form) {
   overlay.classList.remove("active");
 }
 
+function readOrNot() {
+  if (checkBox.checked) return true;
+  else return false;
+}
+
 class Book {
-  constructor(title, author, pages, id) {
+  constructor(title, author, pages, isRead, id) {
     this.title = title;
     this.author = author;
     this.pages = pages;
-    this.isRead = this.info();
+    this.isRead = isRead;
     this.id = id;
-  }
-
-  info() {
-    if (checkBox.checked) {
-      return (this.isRead = true);
-    } else return (this.isRead = false);
   }
 
   toggle() {
@@ -138,8 +145,12 @@ function addBookToLibrary() {
   )
     return;
   removeElementsByClass("book");
-  const newBook = new Book(bookTitle.value, anAuthor.value, pages_input.value);
-  newBook.info();
+  const newBook = new Book(
+    bookTitle.value,
+    anAuthor.value,
+    pages_input.value,
+    readOrNot()
+  );
   myLibrary.push(newBook);
   addBookToDisplay();
   // Resetting form's state
@@ -151,7 +162,7 @@ function addBookToLibrary() {
 
 function addBookToDisplay() {
   myLibrary.forEach((Book, index) => {
-    Book.id = "book" + [index];
+    Book.id = "book" + index;
     const bookCard = document.createElement("div");
     const spanTitle = document.createElement("span");
     const spanAuthor = document.createElement("span");
@@ -167,12 +178,12 @@ function addBookToDisplay() {
     bookCard.appendChild(spanPages);
     bookCard.appendChild(readButton);
     bookCard.appendChild(deleteButton);
-    deleteButton.innerHTML = "Delete Book";
-    if (Book.isRead) readButton.innerHTML = "Read";
-    else readButton.innerHTML = "Not read";
-    spanTitle.innerHTML = "Title: " + Book.title;
-    spanAuthor.innerHTML = "Author: " + Book.author;
-    spanPages.innerHTML = "Pages: " + Book.pages;
+    deleteButton.textContent = "Delete Book";
+    if (Book.isRead) readButton.textContent = "Read";
+    else readButton.textContent = "Not read";
+    spanTitle.textContent = "Title: " + Book.title;
+    spanAuthor.textContent = "Author: " + Book.author;
+    spanPages.textContent = "Pages: " + Book.pages;
     deleteButton.addEventListener("click", (e) => {
       bookCard.remove();
       myLibrary = myLibrary.filter((bookCard) => {
@@ -182,11 +193,11 @@ function addBookToDisplay() {
     readButton.addEventListener("click", () => {
       if (Book.isRead) {
         Book.toggle();
-        return (readButton.innerHTML = "Not read");
+        return (readButton.textContent = "Not read");
       }
       if (!Book.isRead) {
         Book.toggle();
-        return (readButton.innerHTML = "Read");
+        return (readButton.textContent = "Read");
       }
     });
   });
