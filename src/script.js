@@ -7,6 +7,7 @@ import {
   doc,
   deleteDoc,
   getDocs,
+  getDoc,
   query,
   where,
 } from "firebase/firestore";
@@ -40,7 +41,6 @@ async function getBooksFromDB() {
   const queryDocs = query(collection(db, "Books"));
   const docs = await getDocs(queryDocs);
   docs.forEach((doc) => {
-    console.log(doc.ref);
     myLibrary.push(
       new Book(
         doc.data().title,
@@ -57,8 +57,6 @@ async function getBooksFromDB() {
 getBooksFromDB();
 
 submitButton.addEventListener("click", (e) => {
-  e.preventDefault();
-
   const form = document.querySelector(".active");
   if (
     bookTitle.value === "" ||
@@ -67,21 +65,6 @@ submitButton.addEventListener("click", (e) => {
   )
     return;
   closeForm(form);
-
-  const bookConverter = {
-    toFirestore: (book) => {
-      return {
-        author: book.author,
-        title: book.title,
-        pages: book.pages,
-        isRead: book.isRead,
-      };
-    },
-    fromFirestore: (snapshot, options) => {
-      const data = snapshot.data(options);
-      return new Book(data.title, data.pages, data.author);
-    },
-  };
 
   setDoc(
     doc(db, "Books", bookTitle.value).withConverter(bookConverter),
@@ -122,6 +105,21 @@ function readOrNot() {
   if (checkBox.checked) return true;
   else return false;
 }
+
+const bookConverter = {
+  toFirestore: (book) => {
+    return {
+      author: book.author,
+      title: book.title,
+      pages: book.pages,
+      isRead: book.isRead,
+    };
+  },
+  fromFirestore: (snapshot, options) => {
+    const data = snapshot.data(options);
+    return new Book(data.title, data.pages, data.author);
+  },
+};
 
 class Book {
   constructor(title, author, pages, isRead, id) {
@@ -184,7 +182,10 @@ function addBookToDisplay() {
     spanTitle.textContent = "Title: " + Book.title;
     spanAuthor.textContent = "Author: " + Book.author;
     spanPages.textContent = "Pages: " + Book.pages;
-    deleteButton.addEventListener("click", (e) => {
+    deleteButton.addEventListener("click", () => {
+      const title = spanTitle.textContent.split(":")[1].trim();
+      const docRef = doc(db, "Books", title);
+      deleteDoc(docRef);
       bookCard.remove();
       myLibrary = myLibrary.filter((bookCard) => {
         return bookCard.id !== Book.id;
