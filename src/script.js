@@ -7,9 +7,8 @@ import {
   doc,
   deleteDoc,
   getDocs,
-  getDoc,
   query,
-  where,
+  updateDoc,
 } from "firebase/firestore";
 
 const firebaseConfig = {
@@ -49,7 +48,6 @@ async function getBooksFromDB() {
         doc.data().isRead
       )
     );
-    console.log(myLibrary);
   });
   addBookToDisplay();
 }
@@ -71,7 +69,6 @@ submitButton.addEventListener("click", (e) => {
     new Book(bookTitle.value, anAuthor.value, pages_input.value, readOrNot())
   );
   addBookToLibrary();
-  console.log(myLibrary);
 });
 
 overlay.addEventListener("click", () => {
@@ -192,6 +189,9 @@ function addBookToDisplay() {
       });
     });
     readButton.addEventListener("click", () => {
+      const title = spanTitle.textContent.split(":")[1].trim();
+      const docRef = doc(db, "Books", title);
+      updateDoc(docRef, { isRead: !Book.isRead });
       if (Book.isRead) {
         Book.toggle();
         return (readButton.textContent = "Not read");
